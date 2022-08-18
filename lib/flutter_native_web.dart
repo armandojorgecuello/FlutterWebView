@@ -10,12 +10,12 @@ typedef void WebViewCreatedCallback(WebController controller);
 class FlutterNativeWeb extends StatefulWidget {
 
   const FlutterNativeWeb({
-    Key key,
-    @required this.onWebCreated,
+    Key? key,
+    required this.onWebCreated,
     this.gestureRecognizers
   }) : super(key: key);
 
-  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+  final Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers;
 
   final WebViewCreatedCallback onWebCreated;
 
@@ -68,23 +68,23 @@ class WebController {
         _pageStarted = EventChannel('ponnamkarthik/flutterwebview_stream_pagestart_$id');
       }
 
-  MethodChannel _channel;
-  EventChannel _pageFinsihed;
-  EventChannel _pageStarted;
+  MethodChannel? _channel;
+  EventChannel? _pageFinsihed;
+  EventChannel? _pageStarted;
 
   Future<void> loadUrl(String url) async {
     assert(url != null);
-    return _channel.invokeMethod('loadUrl', url);
+    return _channel!.invokeMethod('loadUrl', url);
   }
 
   Future<void> loadData(String html) async {
     assert(html != null);
-    return _channel.invokeMethod('loadData', html);
+    return _channel!.invokeMethod('loadData', html);
   }
 
   Stream<String> get onPageFinished {
     var url = _pageFinsihed
-        .receiveBroadcastStream()
+        !.receiveBroadcastStream()
         .map<String>(
             (element) => element);
     return url;
@@ -92,7 +92,7 @@ class WebController {
 
   Stream<String> get onPageStarted {
     var url = _pageStarted
-        .receiveBroadcastStream()
+        !.receiveBroadcastStream()
         .map<String>(
             (element) => element);
     return url;
